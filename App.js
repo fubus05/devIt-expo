@@ -1,20 +1,55 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import Login from './screen/Login';
+import Register from './screen/Register';
+import Profile from './screen/Profile';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {
+  NavigationContainer,
+  useNavigationContainerRef,
+} from '@react-navigation/native';
+import {Button} from 'react-native';
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+const App = () => {
+  const navigationRef = useNavigationContainerRef();
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer ref={navigationRef}>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            title: 'Edit Profile',
+            headerStyle: {
+              backgroundColor: '#F5F5F5',
+            },
+            headerTitleStyle: {
+              color: '#1F1D1D',
+              fontSize: 18,
+            },
+            headerShadowVisible: false,
+            headerBackVisible: false,
+            headerRight: () => (
+              <Button
+                title="Log Out"
+                color="#FFC612"
+                onPress={() => navigationRef.goBack()}
+              />
+            ),
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
